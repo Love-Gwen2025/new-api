@@ -28,7 +28,7 @@ services:
     env_file:
       - 1panel.env
     labels:
-      - "com.centurylinklabs.watchtower.scope=new-api"
+      - "com.centurylinklabs.watchtower.scope=newapi"
     command: --log-dir /app/logs
     ports:
       - "3000:3000"
@@ -162,16 +162,16 @@ services:
       - TZ=Asia/Shanghai
       - WATCHTOWER_CLEANUP=true
       - WATCHTOWER_POLL_INTERVAL=3600
-      # 只监控指定容器，不写则监控所有
-      - WATCHTOWER_SCOPE=new-api
-    command: --scope new-api
+      - WATCHTOWER_SCOPE=newapi
+      - DOCKER_API_VERSION=1.44
+    command: --scope newapi
     deploy:
       resources:
         limits:
           cpus: '0.1'
           memory: 64M
     labels:
-      - "com.centurylinklabs.watchtower.scope=new-api"
+      - "com.centurylinklabs.watchtower.scope=newapi"
 
 # 数据目录结构:
 #   ./data/       - new-api 应用数据
