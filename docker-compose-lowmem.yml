@@ -1,15 +1,18 @@
 # New-API Docker Compose - 小内存服务器优化版
 # 适用于 1核2G + 4G swap 服务器
 #
-# 使用方式:
-#   1. 创建 .env 文件，包含以下内容:
+# 使用方式 (1Panel):
+#   1. 容器 → 编排 → 创建编排，名称填 newapi
+#   2. 粘贴本文件内容
+#   3. 点击"编辑环境变量"，添加:
 #      POSTGRES_PASSWORD=你的数据库密码
 #      SESSION_SECRET=随机字符串32位以上
 #      CRYPTO_SECRET=随机字符串32位以上
-#   2. docker-compose -f docker-compose-lowmem.yml up -d
-#   3. 访问 http://localhost:3000
+#   4. 确认启动，访问 http://服务器IP:3000
 #
 # 生成随机密钥: openssl rand -hex 32
+#
+# 注意: 1Panel 会将环境变量写入 1panel.env，本文件已配置 env_file 引用
 #
 # 内存分配说明 (总计约 2.2GB，可借助 swap):
 #   - new-api: 1GB
@@ -22,6 +25,8 @@ services:
     image: ghcr.io/love-gwen2025/new-api:latest
     container_name: newapi-app
     restart: always
+    env_file:
+      - 1panel.env
     labels:
       - "com.centurylinklabs.watchtower.scope=new-api"
     command: --log-dir /app/logs
@@ -111,6 +116,8 @@ services:
     image: postgres:15-alpine
     container_name: newapi-postgres
     restart: always
+    env_file:
+      - 1panel.env
     environment:
       TZ: Asia/Shanghai
       PGTZ: Asia/Shanghai
